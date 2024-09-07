@@ -116,6 +116,9 @@
 
                         if ($link) {
                         $res = mysqli_query($link, "select * from products;");
+                        if ($res === FALSE) {
+                            die(mysqli_error($link));
+                          }
                         while ($row = mysqli_fetch_assoc($res)) { ?>
 
                 <div class="col-md-3 col-sm-6 business_content">

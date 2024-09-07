@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ecomm-app-deployment
+  labels:
+    app: ecomm-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ecomm-app
+  template:
+    metadata:
+      labels:
+        app: ecomm-app
+    spec:
+      containers:
+        - name: ecomm-app
+          image: vickysomtee/ecomm-k8s:v2
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+          env:
+            - name: DB_HOST
+              value: mariadb-service.default.svc.cluster.local
+            - name: DB_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: ecomm-app-configmap
+                  key: db-username
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: ecomm-app-configmap
+                  key: db-name
+            - name: DB_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: ecomm-app-configmap
+                  key: db-password

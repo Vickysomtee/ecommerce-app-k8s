@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mariadb-deployment
+spec: # specification for deployment resource
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mariadb
+  template: # blueprint for Pod
+    metadata:
+      labels:
+        app: mariadb # service will look for this label
+    spec: # specification for Pod
+      containers:
+      - name: mariadb
+        image: mariadb
+        ports:
+        - containerPort: 3306 #default one
+        env:
+        - name: MARIADB_ROOT_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: mariadb-configmap
+              key: db-root-password
+        - name: MARIADB_USER
+          valueFrom:
+            configMapKeyRef:
+              name: mariadb-configmap
+              key: db-username
+        - name: MARIADB_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: mariadb-configmap
+              key: db-name
+        - name: MARIADB_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: mariadb-configmap
+              key: db-password                  
+        volumeMounts:
+        - name: mariadb-pv
+          mountPath: /var/lib/mysql
+        - name: mariadb-initdb
+          mountPath: /docker-entrypoint-initdb.d
+      volumes:
+      - name: mariadb-initdb
+        configMap:
+          name: mariadb-configmap
+      - name: mariadb-pv
+        persistentVolumeClaim:
+          claimName: mariadb-pv-claim
