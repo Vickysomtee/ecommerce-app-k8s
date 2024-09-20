@@ -5,8 +5,20 @@ metadata:
   labels:
     app: mariadb
 spec:
+  storageClassName: cloud-ssd
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 300M
+      storage: 7Gi
+
+---
+apiVersion: storgae.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: cloud-ssd
+provisioner: ebs.csi.aws.com
+parameters:
+  type: gp3
+  fsType: ext4  
+
