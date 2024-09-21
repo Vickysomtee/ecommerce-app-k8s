@@ -13,12 +13,12 @@ spec:
       storage: 7Gi
 
 ---
-apiVersion: storgae.k8s.io/v1
+apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
   name: cloud-ssd
+volumeBindingMode: WaitForFirstConsumer  
 provisioner: ebs.csi.aws.com
 parameters:
   type: gp3
-  fsType: ext4  
-
+  fsType: ext4
