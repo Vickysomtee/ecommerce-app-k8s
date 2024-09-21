@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: ecomm-app
-          image: vickysomtee/ecomm-k8s:v2
+          image: vickysomtee/ecomm-k8s:v3
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80
