@@ -7,6 +7,7 @@ jobs:
   docker-deploy:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - name: Build Image  🐳
         run: |
           docker build -t vickysomtee/ecomm-k8s:v3 .
